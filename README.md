@@ -16,6 +16,11 @@ Appen läser upp frågor och ger återkoppling med Androids inbyggda talsyntes.
 * **Pengar** – svenska mynt (1, 2, 5 och 10 kr) och 20-kronorssedeln, högst 50 kr. Två sorters frågor:
   "Hur mycket är det?" (räkna ihop pengarna) och "Välj 15 kr" (välj rätt hög med pengar).
   Mynten är förenklade men har rätt färg och rätt storlek i förhållande till varandra.
+* **Flaggor** – 21 länder (Norden, stora delar av Europa, Japan och USA), ritade i rätt proportioner.
+  Två sorters frågor: "Vilket land?" (en flagga visas, välj land) och "Norges flagga" (välj rätt flagga).
+  Felalternativen är ofta lika flaggor, t.ex. två nordiska kors. Flaggorna finns i `Flags.kt`.
+* **Kalendern** – "Vilken dag kommer efter tisdag?" och "Vilken månad kommer före mars?".
+  Felalternativen är dagen/månaden åt andra hållet och två steg bort.
 
 ## Bygga och uppdatera
 Varje push till `main` bygger APK:n med GitHub Actions och publicerar den som en release

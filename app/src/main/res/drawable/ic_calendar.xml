@@ -1,0 +1,16 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp" android:height="120dp"
+    android:viewportWidth="120" android:viewportHeight="120">
+    <!-- page -->
+    <path android:fillColor="#FFFFFFFF" android:strokeColor="#FFB8AC98" android:strokeWidth="3"
+        android:pathData="M18,22h84a6,6 0,0 1,6 6v78a6,6 0,0 1,-6 6h-84a6,6 0,0 1,-6 -6v-78a6,6 0,0 1,6 -6z" />
+    <!-- red header -->
+    <path android:fillColor="#FFE0453A"
+        android:pathData="M18,22h84a6,6 0,0 1,6 6v14h-96v-14a6,6 0,0 1,6 -6z" />
+    <!-- rings -->
+    <path android:fillColor="#FF2B2D42" android:pathData="M34,12h8v18h-8zM78,12h8v18h-8z" />
+    <!-- days: 4 x 3 grid, one highlighted -->
+    <path android:fillColor="#FFD5DEEF"
+        android:pathData="M22,52h14v12h-14zM44,52h14v12h-14zM66,52h14v12h-14zM88,52h12v12h-12zM22,72h14v12h-14zM66,72h14v12h-14zM88,72h12v12h-12zM22,92h14v12h-14zM44,92h14v12h-14zM66,92h14v12h-14z" />
+    <path android:fillColor="#FF2F6FDE" android:pathData="M44,72h14v12h-14z" />
+</vector>
