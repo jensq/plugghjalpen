@@ -1,0 +1,49 @@
+name: Build APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, master ]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Build debug APK
+        run: |
+          chmod +x ./gradlew
+          set -o pipefail
+          ./gradlew assembleDebug -PbuildNumber=${{ github.run_number }} --no-daemon --stacktrace 2>&1 | tee build.log || {
+            ERRS=$(grep -E "(^| )e: " build.log | sed -E "s#file:///home/runner/work/[^/]*/[^/]*/##" | head -15 | cut -c1-300 | tr '\n' '|')
+            echo "::error title=KotlinErrors::${ERRS}"
+            exit 1
+          }
+
+      - name: Rename APK
+        run: cp app/build/outputs/apk/debug/app-debug.apk "Plugghjalpen.apk"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Plugghjalpen-apk
+          path: Plugghjalpen.apk
+
+      - name: Publish release (used by the in-app updater)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "build-${{ github.run_number }}" Plugghjalpen.apk \
+            --title "Plugghjälpen 1.0.${{ github.run_number }}" \
+            --notes "Automatic build ${{ github.run_number }}" \
+            --latest
