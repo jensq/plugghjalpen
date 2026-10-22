@@ -11,6 +11,7 @@ import android.widget.LinearLayout
 
 /** Start screen: choose what to practise. */
 class MainActivity : Activity() {
+    private lateinit var today: android.widget.TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +55,19 @@ class MainActivity : Activity() {
         root.addView(grid, glp)
 
         // version + manual update check
+        // today's score: answers right on the first try
+        today = Ui.text(this, "", 20f, Ui.TEXT, bold = true)
+        today.gravity = Gravity.CENTER
+        today.background = Ui.rounded(this, 0xFFFFE8A3.toInt(), 22)
+        val tp = Ui.dp(this, 10)
+        today.setPadding(Ui.dp(this, 20), tp, Ui.dp(this, 20), tp)
+        val todayRow = LinearLayout(this)
+        todayRow.gravity = Gravity.CENTER
+        todayRow.addView(today)
+        val tlp = Ui.matchWrap()
+        tlp.topMargin = Ui.dp(this, 14)
+        root.addView(todayRow, tlp)
+
         val bottom = LinearLayout(this)
         bottom.orientation = LinearLayout.HORIZONTAL
         bottom.gravity = Gravity.CENTER_VERTICAL
@@ -79,6 +93,13 @@ class MainActivity : Activity() {
 
         setContentView(root)
         if (savedInstanceState == null) Updater.check(this, true)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val n = Stats.todayCount(this)
+        today.text = "⭐ $n rätt idag"
+        today.contentDescription = "$n rätt på första försöket idag"
     }
 
     private fun start(c: Class<*>) = startActivity(Intent(this, c))

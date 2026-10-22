@@ -28,6 +28,8 @@ Varje push till `main` bygger APK:n med GitHub Actions och publicerar den som en
 ladda ner och installera den (samma system som R56 video). Det går också att trycka på
 **Sök efter uppdateringar** längst ner på startsidan.
 
+Startsidan visar också hur många frågor som besvarats rätt på första försöket idag (nollställs vid midnatt).
+
 Första gången: ladda ner `Plugghjalpen.apk` från senaste releasen under **Releases** på GitHub
 och öppna filen på telefonen/plattan (tillåt installation från okända källor när Android frågar).
 

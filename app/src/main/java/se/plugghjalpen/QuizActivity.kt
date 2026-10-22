@@ -18,6 +18,7 @@ abstract class QuizActivity : Activity() {
     private lateinit var feedback: TextView
     private lateinit var next: View
     private var solved = false
+    private var missed = false // a wrong answer was given on this question
 
     abstract val screenTitle: String
     abstract fun makeGrid(): OptionGrid
@@ -93,6 +94,7 @@ abstract class QuizActivity : Activity() {
 
     private fun showNewQuestion() {
         solved = false
+        missed = false
         feedback.text = ""
         questionArea.removeAllViews()
         grid.removeAllViews()
@@ -118,6 +120,7 @@ abstract class QuizActivity : Activity() {
         if (solved) return
         if (correct) {
             solved = true
+            if (!missed) Stats.addFirstTryCorrect(this)
             card.background = Ui.card(this, Ui.CORRECT_BG, Ui.CORRECT)
             feedback.text = "Rätt, bra jobbat!"
             feedback.setTextColor(Ui.CORRECT)
@@ -128,6 +131,7 @@ abstract class QuizActivity : Activity() {
         } else {
             card.background = Ui.card(this, Ui.WRONG_BG, Ui.WRONG)
             card.alpha = 0.6f
+            missed = true
             card.isClickable = false
             feedback.text = "Försök igen!"
             feedback.setTextColor(Ui.WRONG)
