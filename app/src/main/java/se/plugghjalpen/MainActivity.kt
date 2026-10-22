@@ -35,6 +35,13 @@ class MainActivity : Activity() {
         flag.setImageResource(R.drawable.ic_flag_uk)
         flag.scaleType = ImageView.ScaleType.FIT_CENTER
         grid.addView(subjectCard("Engelska", flag) { start(EnglishActivity::class.java) })
+        val math = ImageView(this)
+        math.setImageResource(R.drawable.ic_math)
+        math.scaleType = ImageView.ScaleType.FIT_CENTER
+        grid.addView(subjectCard("Matte", math) { start(MathActivity::class.java) })
+        val money = MoneyView(this)
+        money.pieces = listOf(20, 10, 5)
+        grid.addView(subjectCard("Pengar", money) { start(MoneyActivity::class.java) })
         val glp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f)
         glp.topMargin = Ui.dp(this, 12)
         root.addView(grid, glp)
@@ -79,7 +86,7 @@ class MainActivity : Activity() {
         val ilp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f)
         ilp.setMargins(p, p / 2, p, p / 2)
         card.addView(iconView, ilp)
-        val t = Ui.text(this, label, 28f, Ui.TEXT, bold = true)
+        val t = Ui.text(this, label, 24f, Ui.TEXT, bold = true)
         t.gravity = Gravity.CENTER
         card.addView(t, Ui.matchWrap())
         card.isClickable = true

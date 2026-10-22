@@ -1,0 +1,16 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp" android:height="120dp"
+    android:viewportWidth="120" android:viewportHeight="120">
+    <!-- plus on blue -->
+    <path android:fillColor="#FF2F6FDE" android:pathData="M8,8h48v48h-48z" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M28,18h8v10h10v8h-10v10h-8v-10h-10v-8h10z" />
+    <!-- minus on orange -->
+    <path android:fillColor="#FFFF9F1C" android:pathData="M64,8h48v48h-48z" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M74,28h28v8h-28z" />
+    <!-- times on green -->
+    <path android:fillColor="#FF2E9E5B" android:pathData="M8,64h48v48h-48z" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M22.3,72.7l9.7,9.7l9.7,-9.7l5.6,5.6l-9.7,9.7l9.7,9.7l-5.6,5.6l-9.7,-9.7l-9.7,9.7l-5.6,-5.6l9.7,-9.7l-9.7,-9.7z" />
+    <!-- equals on purple -->
+    <path android:fillColor="#FF8E5BB5" android:pathData="M64,64h48v48h-48z" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M74,77h28v8h-28zM74,91h28v8h-28z" />
+</vector>
