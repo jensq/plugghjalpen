@@ -61,6 +61,19 @@ class MainActivity : Activity() {
         today.background = Ui.rounded(this, 0xFFFFE8A3.toInt(), 22)
         val tp = Ui.dp(this, 10)
         today.setPadding(Ui.dp(this, 20), tp, Ui.dp(this, 20), tp)
+        // long press: ask before resetting today's count
+        today.setOnLongClickListener {
+            android.app.AlertDialog.Builder(this)
+                .setTitle("Nollställa?")
+                .setMessage("Vill du nollställa antal rätt idag?")
+                .setPositiveButton("Nollställ") { _, _ ->
+                    Stats.reset(this)
+                    showToday()
+                }
+                .setNegativeButton("Avbryt", null)
+                .show()
+            true
+        }
         val todayRow = LinearLayout(this)
         todayRow.gravity = Gravity.CENTER
         todayRow.addView(today)
@@ -97,6 +110,10 @@ class MainActivity : Activity() {
 
     override fun onResume() {
         super.onResume()
+        showToday()
+    }
+
+    private fun showToday() {
         val n = Stats.todayCount(this)
         today.text = "⭐ $n rätt idag"
         today.contentDescription = "$n rätt på första försöket idag"

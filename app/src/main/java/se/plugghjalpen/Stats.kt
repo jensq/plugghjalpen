@@ -16,6 +16,11 @@ object Stats {
         return if (p.getString(DAY, null) == today()) p.getInt(COUNT, 0) else 0
     }
 
+    fun reset(ctx: Context) {
+        ctx.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit()
+            .putString(DAY, today()).putInt(COUNT, 0).apply()
+    }
+
     fun addFirstTryCorrect(ctx: Context) {
         val p = ctx.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
         val n = todayCount(ctx) + 1
