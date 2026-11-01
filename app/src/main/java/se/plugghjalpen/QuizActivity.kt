@@ -102,8 +102,14 @@ abstract class QuizActivity : Activity() {
         speakQuestion()
     }
 
-    /** Adds an alternative. [content] is shown inside a white card; [correct] marks the right one. */
-    protected fun addOption(content: View, correct: Boolean, description: String) {
+    /** Extra sentence said after "Rätt, bra jobbat!" (e.g. why the answer is right). */
+    protected open fun praiseExtra(): String? = null
+
+    /**
+     * Adds an alternative. [content] is shown inside a white card; [correct] marks the right one.
+     * [say]: read this aloud before the feedback when tapped (4+ exercises: "Sol. Rätt, bra jobbat!").
+     */
+    protected fun addOption(content: View, correct: Boolean, description: String, say: String? = null) {
         val card = android.widget.FrameLayout(this)
         card.background = Ui.card(this)
         val p = Ui.dp(this, 8)
@@ -112,11 +118,12 @@ abstract class QuizActivity : Activity() {
         card.isClickable = true
         card.isFocusable = true
         card.contentDescription = description
-        card.setOnClickListener { answer(card, correct) }
+        card.setOnClickListener { answer(card, correct, say) }
         grid.addView(card)
     }
 
-    private fun answer(card: View, correct: Boolean) {
+    private fun answer(card: View, correct: Boolean, say: String?) {
+        val prefix = if (say != null) "$say. " else ""
         if (solved) return
         if (correct) {
             solved = true
@@ -124,7 +131,7 @@ abstract class QuizActivity : Activity() {
             card.background = Ui.card(this, Ui.CORRECT_BG, Ui.CORRECT)
             feedback.text = "Rätt, bra jobbat!"
             feedback.setTextColor(Ui.CORRECT)
-            Speech.speak(this, "Rätt, bra jobbat!")
+            Speech.speak(this, prefix + "Rätt, bra jobbat!" + (praiseExtra()?.let { " $it" } ?: ""))
             for (i in 0 until grid.childCount) grid.getChildAt(i).isClickable = false
             Ui.pulse(card)
             next.postDelayed({ Ui.pulse(next) }, 500)
@@ -135,7 +142,7 @@ abstract class QuizActivity : Activity() {
             card.isClickable = false
             feedback.text = "Försök igen!"
             feedback.setTextColor(Ui.WRONG)
-            Speech.speak(this, "Försök igen!")
+            Speech.speak(this, prefix + "Försök igen!")
             Ui.shake(card)
         }
     }

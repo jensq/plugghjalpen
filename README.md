@@ -3,7 +3,18 @@
 Övningsapp för Android (mobil och surfplatta) för att lära sig klockan och engelska glosor.
 Appen läser upp frågor och ger återkoppling med Androids inbyggda talsyntes.
 
-## Övningar
+## Åldrar
+Startsidan frågar först **4+** eller **7+**. 7+ har övningarna nedan. 4+ har övningar där allt läses
+upp – frågan, och svaret när man trycker på det (t.ex. "Sol. Rätt, bra jobbat!"):
+
+* **Räkna** – 1–6 äpplen, stjärnor, fiskar … "Hur många äpplen är det?" Välj rätt siffra av tre.
+* **Bokstäver** – "Vilken bild börjar på bokstaven S?" Tre bilder. Bara ord där första ljudet är
+  bokstavens vanliga ljud (inga sk-, sj-, hj- eller lj-ord). Orden finns i `Kids.kt`.
+* **Former** – cirkel, fyrkant, triangel, stjärna och hjärta i slumpade färger. "Var är triangeln?"
+* **Vilken passar inte?** – tre saker från samma grupp (djur, frukt, fordon, kläder) och en annan.
+  Rätt svar förklaras, t.ex. "Den är inget djur."
+
+## Övningar 7+
 * **Klockan** – tryck på den blå knappen för att höra en tid, t.ex. "fem över sju". Välj den av
   tre klockor som visar rätt tid. Fel svar ger "Försök igen!", rätt svar ger "Rätt, bra jobbat!".
   Felalternativen är typiska förväxlingar: en timme fel (halv åtta / halv sju), "över" mot "i"

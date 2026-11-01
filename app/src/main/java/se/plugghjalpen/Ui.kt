@@ -81,6 +81,18 @@ object Ui {
         return f
     }
 
+    /** Emoji (or any text) that grows to fill its box, up to [maxSp]. */
+    fun emoji(ctx: Context, s: String, maxSp: Int): TextView {
+        val t = TextView(ctx)
+        t.text = s
+        t.gravity = Gravity.CENTER
+        t.maxLines = 1
+        t.includeFontPadding = false
+        t.setTextColor(TEXT)
+        t.setAutoSizeTextTypeUniformWithConfiguration(16, maxSp, 2, TypedValue.COMPLEX_UNIT_SP)
+        return t
+    }
+
     fun matchWrap() = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
 
     fun pulse(v: View) {
