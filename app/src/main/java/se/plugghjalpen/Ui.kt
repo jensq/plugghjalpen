@@ -16,19 +16,34 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 
-/** Small helpers so the screens can be built in code (same style as R56 video). */
+/** Colours, shapes and small helpers so the screens can be built in code. */
 object Ui {
-    const val BG = 0xFFFFF6E9.toInt()
+    // calm, light base with a few clear accent colours
+    const val BG = 0xFFF5F6FB.toInt()
+    const val BG_TOP = 0xFFE9EEFF.toInt()
     const val CARD = 0xFFFFFFFF.toInt()
-    const val TEXT = 0xFF2B2D42.toInt()
-    const val TEXT_DIM = 0xFF7A7C8C.toInt()
-    const val PRIMARY = 0xFF2F6FDE.toInt()
-    const val ACCENT = 0xFFFF9F1C.toInt()
-    const val CORRECT = 0xFF2E9E5B.toInt()
-    const val CORRECT_BG = 0xFFDDF5E6.toInt()
-    const val WRONG = 0xFFE0453A.toInt()
-    const val WRONG_BG = 0xFFFDE2E0.toInt()
-    const val BORDER = 0xFFE8DCC8.toInt()
+    const val TEXT = 0xFF1E2240.toInt()
+    const val TEXT_DIM = 0xFF8A8FA8.toInt()
+    const val PRIMARY = 0xFF4F6BFF.toInt()
+    const val PRIMARY_2 = 0xFF8357F5.toInt()
+    const val ACCENT = 0xFFFF8A3D.toInt()
+    const val ACCENT_2 = 0xFFFF5E7E.toInt()
+    const val CORRECT = 0xFF1FAE7A.toInt()
+    const val CORRECT_BG = 0xFFE2F7EE.toInt()
+    const val WRONG = 0xFFEF5A5F.toInt()
+    const val WRONG_BG = 0xFFFDE9EA.toInt()
+    const val BORDER = 0xFFE2E5F0.toInt()
+    const val DISABLED = 0xFFE3E5EE.toInt()
+    const val DISABLED_TEXT = 0xFFA5A9BD.toInt()
+
+    /** Soft tints for the icon area of each exercise card. */
+    val TINTS = intArrayOf(
+        0xFFE7ECFF.toInt(), 0xFFFFEEDD.toInt(), 0xFFE1F6EC.toInt(),
+        0xFFF1E9FC.toInt(), 0xFFFDE6EF.toInt(), 0xFFFFF5D6.toInt()
+    )
+
+    val HEADING: Typeface by lazy { Typeface.create("sans-serif", Typeface.BOLD) }
+    val MEDIUM: Typeface by lazy { Typeface.create("sans-serif-medium", Typeface.NORMAL) }
 
     fun dp(ctx: Context, v: Number): Int =
         TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, v.toFloat(), ctx.resources.displayMetrics).toInt()
@@ -41,19 +56,35 @@ object Ui {
         return g
     }
 
-    /** A background with a touch ripple on top of [content]. */
-    fun pressable(content: Drawable): Drawable =
-        RippleDrawable(ColorStateList.valueOf(0x33000000), content, null)
+    /** Diagonal colour gradient with rounded corners. */
+    fun gradient(ctx: Context, from: Int, to: Int, radiusDp: Int): GradientDrawable {
+        val g = GradientDrawable(GradientDrawable.Orientation.TL_BR, intArrayOf(from, to))
+        g.cornerRadius = dp(ctx, radiusDp).toFloat()
+        return g
+    }
 
-    fun card(ctx: Context, color: Int = CARD, strokeColor: Int = BORDER): Drawable =
-        pressable(rounded(ctx, color, 24, strokeColor, 3))
+    /** Page background: a light tint at the top fading into the base colour. */
+    fun page(): Drawable = GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(BG_TOP, BG, BG))
+
+    /** A background with a touch ripple on top of [content]. */
+    fun pressable(content: Drawable, ripple: Int = 0x22000000): Drawable =
+        RippleDrawable(ColorStateList.valueOf(ripple), content, null)
+
+    /** White (or tinted) card. [strokeColor] ≠ 0 draws a coloured edge (used for right/wrong). */
+    fun card(ctx: Context, color: Int = CARD, strokeColor: Int = 0): Drawable =
+        pressable(rounded(ctx, color, 26, strokeColor, if (strokeColor != 0) 3 else 0))
+
+    /** Soft drop shadow (Android draws it from the view's rounded background). */
+    fun elevate(v: View, dpValue: Int) {
+        v.elevation = dp(v.context, dpValue).toFloat()
+    }
 
     fun text(ctx: Context, s: String, sp: Float, color: Int = TEXT, bold: Boolean = false): TextView {
         val t = TextView(ctx)
         t.text = s
         t.setTextSize(TypedValue.COMPLEX_UNIT_SP, sp)
         t.setTextColor(color)
-        if (bold) t.typeface = Typeface.DEFAULT_BOLD
+        if (bold) t.typeface = HEADING
         return t
     }
 
@@ -65,18 +96,20 @@ object Ui {
         return i
     }
 
-    /** Round button with only an icon (used for "back"). */
-    fun roundIconButton(ctx: Context, res: Int, color: Int, sizeDp: Int, onClick: () -> Unit): FrameLayout {
+    /** White round button with a dark icon and a soft shadow (used for "back"). */
+    fun roundIconButton(ctx: Context, res: Int, @Suppress("UNUSED_PARAMETER") color: Int, sizeDp: Int, onClick: () -> Unit): FrameLayout {
         val f = FrameLayout(ctx)
         val bg = GradientDrawable()
         bg.shape = GradientDrawable.OVAL
-        bg.setColor(color)
+        bg.setColor(CARD)
         f.background = pressable(bg)
-        val i = icon(ctx, res, sizeDp / 2)
+        val i = icon(ctx, res, sizeDp / 2, TEXT)
         f.addView(i, FrameLayout.LayoutParams(dp(ctx, sizeDp / 2), dp(ctx, sizeDp / 2), Gravity.CENTER))
         f.layoutParams = LinearLayout.LayoutParams(dp(ctx, sizeDp), dp(ctx, sizeDp))
+        elevate(f, 3)
         f.isClickable = true
         f.isFocusable = true
+        f.contentDescription = "Tillbaka"
         f.setOnClickListener { onClick() }
         return f
     }
@@ -93,11 +126,23 @@ object Ui {
         return t
     }
 
+    /** Answer text inside an option card (words, numbers, amounts). */
+    fun optionText(ctx: Context, s: String, minSp: Int, maxSp: Int, color: Int = TEXT): TextView {
+        val t = TextView(ctx)
+        t.text = s
+        t.setTextColor(color)
+        t.typeface = HEADING
+        t.gravity = Gravity.CENTER
+        t.maxLines = 1
+        t.setAutoSizeTextTypeUniformWithConfiguration(minSp, maxSp, 1, TypedValue.COMPLEX_UNIT_SP)
+        return t
+    }
+
     fun matchWrap() = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
 
     fun pulse(v: View) {
-        v.animate().scaleX(1.12f).scaleY(1.12f).setDuration(180).withEndAction {
-            v.animate().scaleX(1f).scaleY(1f).setDuration(180).start()
+        v.animate().scaleX(1.08f).scaleY(1.08f).setDuration(160).withEndAction {
+            v.animate().scaleX(1f).scaleY(1f).setDuration(200).start()
         }.start()
     }
 
@@ -108,5 +153,12 @@ object Ui {
                 v.animate().translationX(0f).setDuration(60).start()
             }.start()
         }.start()
+    }
+
+    /** Fade and lift a view in (used when a new question appears). */
+    fun appear(v: View, delayMs: Long = 0) {
+        v.alpha = 0f
+        v.translationY = dp(v.context, 12).toFloat()
+        v.animate().alpha(1f).translationY(0f).setStartDelay(delayMs).setDuration(220).start()
     }
 }

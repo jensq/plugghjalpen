@@ -15,7 +15,9 @@ class ScoreBadge(private val a: Activity) {
 
     init {
         text.gravity = Gravity.CENTER
-        text.background = Ui.rounded(a, 0xFFFFE8A3.toInt(), 22)
+        text.background = Ui.rounded(a, 0xFFFFF1C4.toInt(), 22)
+        text.setTextColor(0xFF6B4E00.toInt())
+        text.textSize = 18f
         val tp = Ui.dp(a, 10)
         text.setPadding(Ui.dp(a, 20), tp, Ui.dp(a, 20), tp)
         text.setOnLongClickListener {

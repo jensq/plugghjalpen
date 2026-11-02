@@ -20,25 +20,38 @@ class SubjectsActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val age = intent.getIntExtra(AGE, 7)
-        val pad = Ui.dp(this, 16)
+        val pad = Ui.dp(this, 18)
         val root = LinearLayout(this)
         root.orientation = LinearLayout.VERTICAL
         root.setPadding(pad, pad, pad, Ui.dp(this, 12))
-        root.setBackgroundColor(Ui.BG)
+        root.background = Ui.page()
+        root.clipToPadding = false
 
         val bar = LinearLayout(this)
         bar.orientation = LinearLayout.HORIZONTAL
         bar.gravity = Gravity.CENTER_VERTICAL
         bar.addView(Ui.roundIconButton(this, R.drawable.ic_back, Ui.PRIMARY, 48) { finish() })
-        val title = Ui.text(this, if (age == 4) "4+  Vad vill du spela?" else "7+  Vad vill du plugga?", 24f, Ui.TEXT, bold = true)
+        val chip = Ui.text(this, if (age == 4) "4+" else "7+", 18f, 0xFFFFFFFF.toInt(), bold = true)
+        chip.gravity = Gravity.CENTER
+        chip.background = if (age == 4) Ui.gradient(this, 0xFFFF7EB3.toInt(), 0xFFFF9F5A.toInt(), 16)
+            else Ui.gradient(this, Ui.PRIMARY, Ui.PRIMARY_2, 16)
+        chip.setPadding(Ui.dp(this, 12), 0, Ui.dp(this, 12), 0)
+        val clp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, Ui.dp(this, 34))
+        clp.leftMargin = Ui.dp(this, 14)
+        bar.addView(chip, clp)
+        val title = Ui.text(this, if (age == 4) "Vad vill du spela?" else "Vad vill du plugga?", 24f, Ui.TEXT, bold = true)
         title.maxLines = 1
         title.setAutoSizeTextTypeUniformWithConfiguration(14, 24, 1, android.util.TypedValue.COMPLEX_UNIT_SP)
         val tlp = LinearLayout.LayoutParams(0, Ui.dp(this, 40), 1f)
-        tlp.leftMargin = pad
+        tlp.leftMargin = Ui.dp(this, 10)
         bar.addView(title, tlp)
         root.addView(bar, Ui.matchWrap())
 
-        val grid = OptionGrid(this, 1f, 1f, Ui.dp(this, 20), Ui.dp(this, 340))
+        val grid = OptionGrid(this, 0.85f, 1.15f, Ui.dp(this, 16), Ui.dp(this, 340))
+        grid.clipToPadding = false
+        grid.clipChildren = false
+        val gp = Ui.dp(this, 4)
+        grid.setPadding(gp, gp, gp, gp)
         if (age == 4) addKids(grid) else addBig(grid)
         val glp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f)
         glp.topMargin = Ui.dp(this, 12)
@@ -97,21 +110,31 @@ class SubjectsActivity : Activity() {
 
     private fun start(c: Class<*>) = startActivity(Intent(this, c))
 
+    private var cardIndex = 0
+
+    /** White card with a soft coloured area for the picture and the name underneath. */
     private fun subjectCard(label: String, iconView: View, onClick: () -> Unit): View {
         val card = LinearLayout(this)
         card.orientation = LinearLayout.VERTICAL
         card.gravity = Gravity.CENTER
         card.background = Ui.card(this)
-        val p = Ui.dp(this, 16)
-        card.setPadding(p, p, p, p)
-        val ilp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f)
-        ilp.setMargins(p, p / 2, p, p / 2)
-        card.addView(iconView, ilp)
-        val t = Ui.text(this, label, 24f, Ui.TEXT, bold = true)
+        Ui.elevate(card, 4)
+        val p = Ui.dp(this, 12)
+        card.setPadding(p, p, p, Ui.dp(this, 8))
+
+        val well = android.widget.FrameLayout(this)
+        well.background = Ui.rounded(this, Ui.TINTS[cardIndex++ % Ui.TINTS.size], 20)
+        val wp = Ui.dp(this, 14)
+        well.setPadding(wp, wp, wp, wp)
+        well.addView(iconView, android.widget.FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
+        card.addView(well, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f))
+
+        val t = Ui.text(this, label, 22f, Ui.TEXT, bold = true)
         t.gravity = Gravity.CENTER
         t.maxLines = 1
-        t.setAutoSizeTextTypeUniformWithConfiguration(12, 24, 1, android.util.TypedValue.COMPLEX_UNIT_SP)
-        card.addView(t, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Ui.dp(this, 34)))
+        t.setAutoSizeTextTypeUniformWithConfiguration(12, 22, 1, android.util.TypedValue.COMPLEX_UNIT_SP)
+        val tl = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Ui.dp(this, 40))
+        card.addView(t, tl)
         card.isClickable = true
         card.isFocusable = true
         card.contentDescription = label

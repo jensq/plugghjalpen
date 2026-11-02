@@ -21,7 +21,7 @@ class EnglishActivity : QuizActivity() {
             val t = TextView(this)
             t.text = o.swedish
             t.setTextColor(Ui.TEXT)
-            t.typeface = android.graphics.Typeface.DEFAULT_BOLD
+            t.typeface = Ui.HEADING
             t.gravity = Gravity.CENTER
             t.maxLines = 1
             t.setAutoSizeTextTypeUniformWithConfiguration(14, 34, 1, android.util.TypedValue.COMPLEX_UNIT_SP)

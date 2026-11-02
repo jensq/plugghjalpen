@@ -1,6 +1,7 @@
 <resources>
-    <color name="bg">#FFFFF6E9</color>
-    <color name="primary">#FF2F6FDE</color>
-    <color name="accent">#FFFF9F1C</color>
+    <color name="bg">#FFF5F6FB</color>
+    <color name="primary">#FF4F6BFF</color>
+    <color name="accent">#FFFF8A3D</color>
     <color name="launcher_bg">#FF2F6FDE</color>
+    <color name="bg_top">#FFE9EEFF</color>
 </resources>
