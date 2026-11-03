@@ -24,8 +24,9 @@ upp – frågan, och svaret när man trycker på det (t.ex. "Sol. Rätt, bra job
 * **Engelska** – ett engelskt ord visas (tryck för att höra uttalet). Välj rätt svenskt ord av fem.
   Orden finns i `app/src/main/java/se/plugghjalpen/Words.kt` och är lätta att fylla på.
 
-* **Matte** – plus och minus med tal upp till 20 (hälften av talen håller sig inom 10). Tre svar att
-  välja mellan; felalternativen är typiska misstag: ett eller två fel, tio fel eller fel räknesätt.
+* **Matte** – plus och minus med tal upp till 20 (hälften av talen håller sig inom 10), och
+  "Vad är hälften av 14?" (jämna tal till 20, ibland 30–100). Tre svar att välja mellan;
+  felalternativen är typiska misstag: ett eller två fel, tio fel, fel räknesätt eller hela talet.
 * **Pengar** – svenska mynt (1, 2, 5 och 10 kr) och 20-kronorssedeln, högst 50 kr. Två sorters frågor:
   "Hur mycket är det?" (räkna ihop pengarna) och "Välj 15 kr" (välj rätt hög med pengar).
   Mynten är förenklade men har rätt färg och rätt storlek i förhållande till varandra.
@@ -34,6 +35,8 @@ upp – frågan, och svaret när man trycker på det (t.ex. "Sol. Rätt, bra job
   Felalternativen är ofta lika flaggor, t.ex. två nordiska kors. Flaggorna finns i `Flags.kt`.
 * **Kalendern** – "Vilken dag kommer efter tisdag?" och "Vilken månad kommer före mars?".
   Felalternativen är dagen/månaden åt andra hållet och två steg bort.
+* **Rim** – ett ord visas (t.ex. "katt"); tryck på det av tre ord som rimmar (t.ex. "hatt").
+  Orden läses upp när man trycker. Rimgrupperna finns i `Rhymes.kt`.
 
 ## Bygga och uppdatera
 Varje push till `main` bygger APK:n med GitHub Actions och publicerar den som en release

@@ -15,7 +15,7 @@ class MathActivity : QuizActivity() {
     override fun newQuestion() {
         val t = MathQuiz.randomTask(Random.Default, avoid = current)
         current = t
-        questionArea.addView(speakerButton(t.text, 40f))
+        questionArea.addView(speakerButton(t.text, if (t.op == MathOp.HALF) 30f else 40f))
         for (n in MathQuiz.options(t, Random.Default)) {
             addOption(numberLabel(n.toString()), n == t.answer, n.toString())
         }

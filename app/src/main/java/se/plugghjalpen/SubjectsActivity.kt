@@ -84,6 +84,7 @@ class SubjectsActivity : Activity() {
         flags.flag = Flags.ALL.first() // Sverige
         grid.addView(subjectCard("Flaggor", flags) { start(FlagActivity::class.java) })
         grid.addView(subjectCard("Kalendern", image(R.drawable.ic_calendar)) { start(CalendarActivity::class.java) })
+        grid.addView(subjectCard("Rim", Ui.emoji(this, "🐱🎩", 100)) { start(RhymeActivity::class.java) })
     }
 
     private fun addKids(grid: OptionGrid) {
