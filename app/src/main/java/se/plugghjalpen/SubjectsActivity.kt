@@ -96,6 +96,11 @@ class SubjectsActivity : Activity() {
         abc.maxLines = 1
         abc.setAutoSizeTextTypeUniformWithConfiguration(20, 120, 2, android.util.TypedValue.COMPLEX_UNIT_SP)
         grid.addView(subjectCard("Bokstäver", abc) { start(LetterActivity::class.java) })
+        val hear = Ui.text(this, "A?", 60f, Ui.ACCENT, bold = true)
+        hear.gravity = Gravity.CENTER
+        hear.maxLines = 1
+        hear.setAutoSizeTextTypeUniformWithConfiguration(20, 120, 2, android.util.TypedValue.COMPLEX_UNIT_SP)
+        grid.addView(subjectCard("Hitta bokstaven", hear) { start(HearLetterActivity::class.java) })
         val shapes = ShapeView(this)
         shapes.set(ShapeKind.STAR, Ui.ACCENT)
         grid.addView(subjectCard("Former", shapes) { start(ShapeActivity::class.java) })

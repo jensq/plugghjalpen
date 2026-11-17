@@ -12,6 +12,9 @@ upp – frågan, och svaret när man trycker på det (t.ex. "Sol. Rätt, bra job
 * **Räkna** – 1–6 äpplen, stjärnor, fiskar … "Hur många äpplen är det?" Välj rätt siffra av tre.
 * **Bokstäver** – "Vilken bild börjar på bokstaven S?" Tre bilder. Bara ord där första ljudet är
   bokstavens vanliga ljud (inga sk-, sj-, hj- eller lj-ord). Orden finns i `Kids.kt`.
+* **Hitta bokstaven** – appen säger en bokstav ("Var är bokstaven em?") och man trycker på rätt
+  versal av tre. Hela alfabetet A–Ö; ibland är ett felalternativ en bokstav som liknar den rätta
+  (t.ex. E/F eller M/N). Alla bokstäver kommer en gång innan någon upprepas. Finns i `Alphabet.kt`.
 * **Former** – cirkel, fyrkant, triangel, stjärna och hjärta i slumpade färger. "Var är triangeln?"
 * **Vilken passar inte?** – tre saker från samma grupp (djur, frukt, fordon, kläder) och en annan.
   Rätt svar förklaras, t.ex. "Den är inget djur."
